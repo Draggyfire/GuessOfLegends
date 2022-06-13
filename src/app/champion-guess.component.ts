@@ -4,12 +4,17 @@ import {ChampionService} from "./champion.service";
 @Component({
   selector: 'app-champion-guess',
   template: `
-    <div style="display:flex;flex-direction: column;">
-      <h1 style="color: white">{{hour}}:{{min}}:{{sec}}</h1>
-      <h2 style="color: white">{{score}}</h2>
-      <img src="{{this.championService.getSprite()}}">
-      <br>
-      <input matInput type="text" (keyup)="onKey($event)">
+    <div >
+      <div style="display:flex;flex-direction: column;" *ngIf="!end">
+        <h1 style="color: white">{{hour}}:{{min}}:{{sec}}</h1>
+        <h2 style="color: white">{{score}}</h2>
+        <img src="{{this.championService.getSprite()}}">
+        <br>
+        <input matInput type="text" (keyup)="onKey($event)">
+      </div>
+      <div *ngIf="end">
+        <app-end [time]="hour.toString()+':'+min.toString()+':'+sec.toString()" [score]="score"></app-end>
+      </div>
     </div>
   `,
   styles: [
@@ -20,6 +25,7 @@ export class ChampionGuessComponent implements OnInit,OnChanges {
   answer:String;
   userAnswer:String;
   score:number;
+  end:boolean;
 
   sec:number;
   min:number;
@@ -35,6 +41,7 @@ export class ChampionGuessComponent implements OnInit,OnChanges {
     this.answer="";
     this.userAnswer="";
     this.score=0;
+    this.end=false;
   }
 
   onKey(event:any){
@@ -53,8 +60,12 @@ export class ChampionGuessComponent implements OnInit,OnChanges {
     return false;
   }
   restart(){
-    this.championService.selectChampion();
-    this.answer=this.championService.getChampionName();
+    if(this.championService.selectChampion()){
+      this.answer=this.championService.getChampionName();
+    }else{
+      this.pauseTimer();
+      this.end = true;
+    }
   }
 
   startTimer(){

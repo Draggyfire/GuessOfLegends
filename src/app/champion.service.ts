@@ -30,13 +30,16 @@ export class ChampionService {
     });
   }
 
-  selectChampion():void{
+  selectChampion():boolean{
+    if(this.tabChampionName.length==0){
+      return false;
+    }
     let randomNumber = Math.floor(Math.random() * this.tabChampionName.length);
     this.championName = this.tabChampionName[randomNumber];
     let spriteChampionName = this.championName.replace(" ","");
     this.sprite = "../assets/ChampionSplashArt/"+spriteChampionName+"_0.jpg";
     this.removeChampion(this.championName);
-
+    return true;
   }
 
 
