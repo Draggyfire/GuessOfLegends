@@ -9,13 +9,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule} from "@angular/material/button";
 import {MatInputModule} from "@angular/material/input";
 import { EndComponent } from './end.component';
+import { ChampionGuessRushComponent } from './champion-guess-rush.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     ChampionGuessComponent,
-    EndComponent
+    EndComponent,
+    ChampionGuessRushComponent
   ],
   imports: [
     BrowserModule,
